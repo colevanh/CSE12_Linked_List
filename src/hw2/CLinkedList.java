@@ -1,22 +1,25 @@
 // *
 // NAME: John Cole Van Hoogenstyn
 // ID: A12572409
-// LOGIN: cs12srd
 // *
+
 /**
- * Circular Doubly-Linked list that stores non-null objects of a type.
+ * Linked List project for CSE12: Data Structures at the University of 
+ * California, San Diego. 
  *
  * @version 1.0
- * @author John Van Hoogenstyn
+ * @author John Cole Van Hoogenstyn
  * @since
  */
 package hw2;
-
 import java.util.*;
 
 public class CLinkedList<E> extends AbstractList<E> {
+    /**
+     * Circular Doubly-Linked list that stores non-null objects of a type.
+     */
 
-    private int nElems;
+    private int nElems;      // Current number of elements 
     private Node dummyHead;  // "dummy" Node, used for assistance in methods
     private Node dummyTail;  // "dummy" Node, used for assistance in methods
     private Node actualHead; // Actual Head node that will contain data
@@ -24,13 +27,17 @@ public class CLinkedList<E> extends AbstractList<E> {
     private static final int ZERO = 0;
 
     protected class Node {
+        /**
+         * Inner class to be utilized by CLinkedList objects to store data
+         */
 
         E data;
-        Node next;
-        Node prev;
+        Node next;      // Reference to the object's next Node
+        Node prev;      // Reference to the object's previous Node
 
         /**
          * Constructor to create singleton Node
+         * Links to previous and next nodes are handled by helper methods.
          */
         public Node(E element) {
             this.data = element;
@@ -40,8 +47,8 @@ public class CLinkedList<E> extends AbstractList<E> {
         }
 
         /**
-         * Constructor to create singleton Node, link it between previous and
-         * next
+         * Constructor to create singleton Node
+         * Params provide two Node objects for next and previous links
          *
          * @param element Element to add, can be null
          * @param prevNode predecessor Node, can be null
@@ -58,17 +65,17 @@ public class CLinkedList<E> extends AbstractList<E> {
         }
 
         /**
-         * Remove this node from the list. Update previous and next nodes
+         * Remove this Node from the list. Update previous and next nodes.
          */
         public void remove() {
             this.data = null;
-            // Update the removed Node's linked Nodes to maintain the proper linked structure
+            // Update the LinkedList structure to maintain the links
             this.next.prev = this.prev;
             this.prev.next = this.next;
         }
 
         /**
-         * Set the previous node in the list
+         * Set the previous Node in the list
          *
          * @param p new previous node
          */
@@ -77,7 +84,7 @@ public class CLinkedList<E> extends AbstractList<E> {
         }
 
         /**
-         * Set the next node in the list
+         * Set the next Node in the list
          *
          * @param n new next node
          */
@@ -86,7 +93,7 @@ public class CLinkedList<E> extends AbstractList<E> {
         }
 
         /**
-         * Set the element
+         * Set the element for a Node object
          *
          * @param e new element
          */
@@ -95,16 +102,16 @@ public class CLinkedList<E> extends AbstractList<E> {
         }
 
         /**
-         * Accessor to get the next Node in the list
+         * Accessor method, returns the Node's next Node
          *
-         * @return
+         * @return Node object
          */
         public Node getNext() {
             return (Node) this.next;
         }
 
         /**
-         * Accessor to get the prev Node in the list
+         * Accessor method, returns the Node's previous Node
          *
          * @return
          */
@@ -113,7 +120,7 @@ public class CLinkedList<E> extends AbstractList<E> {
         }
 
         /**
-         * Accessor to get the Nodes Element
+         * Accessor method, returns the Node's data 
          *
          * @return
          */
@@ -121,10 +128,11 @@ public class CLinkedList<E> extends AbstractList<E> {
             return (E) this.data;
         }
 
+        /**
+         * Helper method - prints the Node's data 
+         */
         public void printNodeData() throws NullPointerException {
             System.out.println("Node data: " + this.getElement());
-            //System.out.println("Next node: " + this.getNext().getElement());
-            //System.out.println("Previous node: " + this.getPrev().getElement());
         }
     }
 
@@ -132,13 +140,16 @@ public class CLinkedList<E> extends AbstractList<E> {
      * ListIterator implementation
      */
     protected class MyListIterator implements ListIterator<E> {
-
-        private boolean forward;
-        private boolean canRemove;
-        private Node left;       // Cursor sits between these two nodes
-        private Node right;      // Cursor sits between these two nodes
-        private Node currentNode;
-        private int currentNodeIndex;
+        /**
+         * MyListIterator instances provide iteration of objects
+         * In our case, we will use it for CLinkedList objects.
+         */
+        private boolean forward;    // Can the iterator move forward?
+        private boolean canRemove;  // Can the iterator remove?
+        private Node left;          // Cursor sits between these two nodes
+        private Node right;         // Cursor sits between these two nodes
+        private Node currentNode;   // Current node being processed
+        private int currentNodeIndex; // Index of current node 
         private int idx = 0;     // Current position, what next() would return 
         private int size = 0;    // Size of iterator
 
@@ -168,8 +179,8 @@ public class CLinkedList<E> extends AbstractList<E> {
         /**
          * Adds an element to the list between 'left' and 'right'.
          *
-         * @param TODO: finish me!
-         * @throws TODO: finish me!
+         * @param e an element to be added
+         * @throws NullPointerException
          */
         @Override
         public void add(E e) throws NullPointerException {
@@ -184,14 +195,11 @@ public class CLinkedList<E> extends AbstractList<E> {
             this.left = addNode;
             this.canRemove = false;
             this.idx++;
-
         }
 
         /**
          * Checks if there is another element to be retrieved by calling next().
-         *
-         * Hint: how would this work for a circular list?
-         */
+        */
         @Override
         public boolean hasNext() {
             if (CLinkedList.this.size() > 0) {
@@ -201,6 +209,9 @@ public class CLinkedList<E> extends AbstractList<E> {
             }
         }
 
+        /**
+         * Checks if there is a previous node
+         */
         @Override
         public boolean hasPrevious() {
             if (CLinkedList.this.size() > 0) {
@@ -719,7 +730,4 @@ public class CLinkedList<E> extends AbstractList<E> {
 
     }
 }
-
-// VIM: set the tabstop and shiftwidth to 4 
-// vim:tw=78:ts=4:et:sw=4
 
